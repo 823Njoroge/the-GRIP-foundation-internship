@@ -9,11 +9,24 @@ mongoose
   .then(async () => {
     await Customer.deleteMany({});
     const customers = [
-      { name: "Alice", email: "alice@example.com", currentBalance: 5000 },
-      { name: "Bob", email: "bob@example.com", currentBalance: 3000 },
-      { name: "Charlie", email: "charlie@example.com", currentBalance: 2000 },
-      { name: "David", email: "david@example.com", currentBalance: 4500 },
-      { name: "Eve", email: "eve@example.com", currentBalance: 7000 },
+      {
+        name: "Bella Wairimu",
+        email: "bellawairimu@gmail.com",
+        currentBalance: 5000,
+      },
+      { name: "Bob Kimani", email: "bob@gmail.com", currentBalance: 3000 },
+      {
+        name: "Charlie Black",
+        email: "charlie@gmail.com",
+        currentBalance: 2000,
+      },
+      { name: "David Mwangi", email: "david@gmail.com", currentBalance: 4500 },
+      { name: "Evelyn Mumbi", email: "eve@outlook.com", currentBalance: 7000 },
+      { name: "Alice", email: "alice@gmail.com", currentBalance: 5000 },
+      { name: "Job Allan", email: "bob@outlook.com", currentBalance: 3000 },
+      { name: "Charlie", email: "charlie@gmail.com", currentBalance: 2000 },
+      { name: "David", email: "david@gmail.com", currentBalance: 4500 },
+      { name: "Eve", email: "eve@gmail.com", currentBalance: 7000 },
       // Add more customers as needed
     ];
     await Customer.insertMany(customers);

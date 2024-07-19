@@ -1,20 +1,21 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: poppins;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  background-color: rgb(211, 216, 221);
 }
 
 #app {
   width: 80%;
   margin: auto;
   padding: 20px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: rgb(211, 216, 221);
+  box-shadow: 0 0 10px rgba(22, 5, 252, 0.911);
 }
 
 h1 {
   text-align: center;
+  color: rgba(22, 5, 252, 0.911);
 }
 
 #customers,
@@ -26,11 +27,12 @@ h1 {
 button {
   padding: 10px 15px;
   border: none;
-  background: #5cb85c;
-  color: white;
+  background: rgba(22, 5, 252, 0.911);
+  color: rgb(211, 216, 221);
   cursor: pointer;
 }
 
 button:hover {
-  background: #4cae4c;
+  background: white;
+  color: rgba(22, 5, 252, 0.911);
 }
