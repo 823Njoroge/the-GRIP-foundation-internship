@@ -10,6 +10,11 @@ mongoose
     await Customer.deleteMany({});
     const customers = [
       {
+        name: "user",
+        email: "njorogeian823@gmail.com",
+        currentBalance: 10000,
+      },
+      {
         name: "Bella Wairimu",
         email: "bellawairimu@gmail.com",
         currentBalance: 5000,

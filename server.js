@@ -34,9 +34,10 @@ app.get("/api/customers/:id", async (req, res) => {
 });
 
 app.post("/api/transfer", async (req, res) => {
-  const { fromCustomerId, toCustomerId, amount } = req.body;
+  const { toCustomerId, amount } = req.body;
 
-  const fromCustomer = await Customer.findById(fromCustomerId);
+  // Assume "User" is always the sender
+  const fromCustomer = await Customer.findOne({ name: "user" });
   const toCustomer = await Customer.findById(toCustomerId);
 
   if (!fromCustomer || !toCustomer) {
