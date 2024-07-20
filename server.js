@@ -24,8 +24,13 @@ mongoose
 
 // API routes
 app.get("/api/customers", async (req, res) => {
-  const customers = await Customer.find();
+  const customers = await Customer.find({ name: { $ne: "User" } });
   res.json(customers);
+});
+
+app.get("/api/user", async (req, res) => {
+  const user = await Customer.findOne({ name: "User" });
+  res.json(user);
 });
 
 app.get("/api/customers/:id", async (req, res) => {
@@ -37,7 +42,7 @@ app.post("/api/transfer", async (req, res) => {
   const { toCustomerId, amount } = req.body;
 
   // Assume "User" is always the sender
-  const fromCustomer = await Customer.findOne({ name: "user" });
+  const fromCustomer = await Customer.findOne({ name: "User" });
   const toCustomer = await Customer.findById(toCustomerId);
 
   if (!fromCustomer || !toCustomer) {

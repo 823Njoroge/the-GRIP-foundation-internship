@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Customer = require("./models/customer"); // Adjust the path as necessary
+const Customer = require("./models/customer");
 
 mongoose
   .connect("mongodb://localhost:27017/bank", {
@@ -9,11 +9,8 @@ mongoose
   .then(async () => {
     await Customer.deleteMany({});
     const customers = [
-      {
-        name: "user",
-        email: "njorogeian823@gmail.com",
-        currentBalance: 10000,
-      },
+      { name: "User", email: "useremail@gmail.com", currentBalance: 10000 },
+
       {
         name: "Bella Wairimu",
         email: "bellawairimu@gmail.com",

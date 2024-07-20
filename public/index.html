@@ -7,80 +7,97 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>IANOH BANKING SYSTEM</h2>
     <div id="app">
-      <h1>Bank Customers</h1>
-    <p> Select a user to transfer money to!</P>
-      <div class="customers" id="customers"></div>
-      <div class="customers-details" id="customer-details"></div>
-      <div class="transfer-form" id="transfer-form"></div>
+      <h1>Bank Application</h1>
+      <div id="user-profile"></div>
+      <h2>Customers</h2>
+      <div id="customers"></div>
+      <div id="customer-details"></div>
+      <div id="transfer-form"></div>
     </div>
+
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-  fetchCustomers();
-});
+        fetchUser();
+        fetchCustomers();
+      });
 
-async function fetchCustomers() {
-  const response = await fetch("/api/customers");
-  const customers = await response.json();
-  displayCustomers(customers);
-}
+      async function fetchUser() {
+        const response = await fetch("/api/user");
+        const user = await response.json();
+        displayUser(user);
+      }
 
-function displayCustomers(customers) {
-  const customersDiv = document.getElementById("customers");
-  customersDiv.innerHTML = "";
-  customers.forEach((customer) => {
-    if (customer.name !== "User") {
-      const customerDiv = document.createElement("div");
-      customerDiv.innerHTML = `
-        <p><strong>${customer.name}</strong> (${customer.email}) - Balance: $${customer.currentBalance}</p>
-        <button onclick="viewCustomer('${customer._id}')">View</button>
+      function displayUser(user) {
+        const userDiv = document.getElementById("user-profile");
+        userDiv.innerHTML = `
+        <h2>User Profile</h2>
+        <p>ID: ${user._id}</p>
+        <p>Name: ${user.name}</p>
+        <p>Email: ${user.email}</p>
+        <p>Current Balance: $${user.currentBalance}</p>
       `;
-      customersDiv.appendChild(customerDiv);
-    }
-  });
-}
+      }
 
-async function viewCustomer(customerId) {
-  const response = await fetch(`/api/customers/${customerId}`);
-  const customer = await response.json();
-  const customerDetailsDiv = document.getElementById("customer-details");
-  customerDetailsDiv.innerHTML = `
-    <h2>${customer.name}</h2>
-    <p>Email: ${customer.email}</p>
-    <p>Current Balance: $${customer.currentBalance}</p>
-    <button onclick="initiateTransfer('${customer._id}')">Transfer Money</button>
-  `;
-}
+      async function fetchCustomers() {
+        const response = await fetch("/api/customers");
+        const customers = await response.json();
+        displayCustomers(customers);
+      }
 
-function initiateTransfer(toCustomerId) {
-  const transferFormDiv = document.getElementById("transfer-form");
-  transferFormDiv.innerHTML = `
-    <h3>Transfer Money</h3>
-    <label for="amount">Amount:</label>
-    <input type="number" id="amount" min="1">
-    <button onclick="transferMoney('${toCustomerId}')">Transfer</button>
-  `;
-}
+      function displayCustomers(customers) {
+        const customersDiv = document.getElementById("customers");
+        customersDiv.innerHTML = "";
+        customers.forEach((customer) => {
+          const customerDiv = document.createElement("div");
+          customerDiv.innerHTML = `
+          <p><strong>${customer.name}</strong> (${customer.email}) - Balance: $${customer.currentBalance}</p>
+          <button onclick="viewCustomer('${customer._id}')">View</button>
+        `;
+          customersDiv.appendChild(customerDiv);
+        });
+      }
 
-async function transferMoney(toCustomerId) {
-  const amount = parseFloat(document.getElementById("amount").value);
-  const response = await fetch("/api/transfer", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ toCustomerId, amount }),
-  });
-  const result = await response.json();
-  if (result.success) {
-    alert("Transfer successful!");
-    fetchCustomers();
-    document.getElementById("customer-details").innerHTML = "";
-    document.getElementById("transfer-form").innerHTML = "";
-  } else {
-    alert("Transfer failed: " + result.message);
-  }
-}
+      async function viewCustomer(customerId) {
+        const response = await fetch(`/api/customers/${customerId}`);
+        const customer = await response.json();
+        const customerDetailsDiv = document.getElementById("customer-details");
+        customerDetailsDiv.innerHTML = `
+        <h2>${customer.name}</h2>
+        <p>Email: ${customer.email}</p>
+        <p>Current Balance: $${customer.currentBalance}</p>
+        <button onclick="initiateTransfer('${customer._id}')">Transfer Money</button>
+      `;
+      }
 
+      function initiateTransfer(toCustomerId) {
+        const transferFormDiv = document.getElementById("transfer-form");
+        transferFormDiv.innerHTML = `
+        <h3>Transfer Money</h3>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" min="1">
+        <button onclick="transferMoney('${toCustomerId}')">Transfer</button>
+      `;
+      }
+
+      async function transferMoney(toCustomerId) {
+        const amount = parseFloat(document.getElementById("amount").value);
+        const response = await fetch("/api/transfer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ toCustomerId, amount }),
+        });
+        const result = await response.json();
+        if (result.success) {
+          alert("Transfer successful!");
+          fetchUser(); // Update the user balance after transfer
+          fetchCustomers();
+          document.getElementById("customer-details").innerHTML = "";
+          document.getElementById("transfer-form").innerHTML = "";
+        } else {
+          alert("Transfer failed: " + result.message);
+        }
+      }
     </script>
   </body>
 </html>
